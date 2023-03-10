@@ -3,7 +3,7 @@
   import SidebarMenuItem from './SidebarMenuItem.svelte';
 </script>
 
-<div class="col-span-1 bg-black text-white h-screen py-6 px-4">
+<div class="col-span-1 bg-[#020202] text-white h-screen py-6 px-4">
     <div class="flex flex-col justify-between h-full ">
         <div class="flex flex-col gap-6 h-full">
             <div class="text-4xl font-bold italic py-6 cursor-pointer">
