@@ -1,0 +1,85 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id            Int              @id @default(autoincrement())
+  name          String?
+  username      String           @unique
+  mobile        String?          @unique
+  passwordHash  String
+  registeredAt  DateTime         @default(now())
+  lastLogin     DateTime?
+  roleId        Int
+  userAuthToken String           @unique
+  profile       ExtendedProfile?
+  avatar        Avatar?
+  polls         Poll[]
+  pollResponses PollResponses[]
+  role          Roles            @relation(fields: [roleId], references: [id])
+
+  @@index([roleId], map: "uq_roleId")
+  @@index([username], map: "uq_username")
+  @@index([mobile], map: "uq_mobile")
+}
+
+model Roles {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  user User[]
+}
+
+model ExtendedProfile {
+  id     Int     @id @default(autoincrement())
+  userId Int?    @unique
+  bio    String?
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+model Avatar {
+  id       Int     @id @default(autoincrement())
+  userId   Int?    @unique
+  photoUrl String?
+  user     User?   @relation(fields: [userId], references: [id])
+}
+
+model Poll {
+  id            Int             @id @default(autoincrement())
+  title         String
+  authorId      Int
+  comments      Json
+  views         Int             @default(0)
+  likes         Int             @default(0)
+  author        User            @relation(fields: [authorId], references: [id])
+  options       Option[]
+  PollResponses PollResponses[]
+
+  @@index([authorId], map: "uq_authorId")
+}
+
+model Option {
+  id          Int    @id @default(autoincrement())
+  option_text String
+  pollId      Int
+  poll        Poll   @relation(fields: [pollId], references: [id])
+
+  @@index([pollId], map: "uq_pollId")
+}
+
+model PollResponses {
+  id          Int  @id @default(autoincrement())
+  pollId      Int
+  reponsderId Int
+  reponsder   User @relation(fields: [reponsderId], references: [id])
+  poll        Poll @relation(fields: [pollId], references: [id])
+
+  @@index([reponsderId], map: "uq_reponsderId")
+  @@index([pollId], map: "uq_pollId")
+}
