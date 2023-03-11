@@ -1,8 +1,7 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
-import bcrypt from "bcrypt";
 import { db } from "$lib/database";
-
+import bcrypt from "bcryptjs";
 // using an enum for user roles to avoid typos
 // if you're not using TypeScript use an object
 enum Roles {
