@@ -6,7 +6,6 @@ import { db } from "$lib/database";
 
 export const load: PageServerLoad = async ({ locals }) => {
   // redirect user if logged in
-  console.log(locals);
   if (locals.user) {
     throw redirect(302, "/");
   }
@@ -58,11 +57,7 @@ const login: Action = async ({ cookies, request }) => {
     maxAge: 60 * 60 * 24 * 30,
   });
 
-  console.log(cookies.getAll());
-
   // redirect the user
-
-  console.log("redirecting");
   throw redirect(302, "/");
 };
 

@@ -15,7 +15,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     where: { userAuthToken: session },
     select: { username: true, role: true },
   });
-  console.log("user", user);
   // if `user` exists set `events.local`
   if (user) {
     event.locals.user = {
