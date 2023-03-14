@@ -22,7 +22,7 @@
      <form
         action="/logout"
         method="POST"
-        use:enhance={() => {
+        use:enhance={() => {``
             return async ({ result }) => {
             invalidateAll()
             await applyAction(result)
